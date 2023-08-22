@@ -80,11 +80,12 @@ restart.addEventListener('click', () => {
 
     const img = document.querySelectorAll(".box img")
     img.forEach(img => img.remove());
-
     winnerMessage.innerText = "First player will be X"
     winnerMessage.style.color = "rgb(231 203 203)";
     winnerMessage.style.backgroundColor = ""
     Xturn = true;
+    filledBoxesCount = 0;
+    console.clear();
 
     addEvent();
 });
@@ -155,7 +156,6 @@ function checkScore() {
                 let currentScore = parseInt(scorePlayerX.innerText)
                 currentScore++;
                 scorePlayerX.innerText = currentScore;
-                updateXscore()
                 return;
             }
         });
