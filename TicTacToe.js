@@ -13,6 +13,9 @@ let filledBoxesCount = 0;
 
 
 
+
+
+
 // creating 9 boxes and "id" to each and adding them to the html page
 
 function createCellsLoop() {
@@ -54,7 +57,6 @@ function handleBoxClick(event) {
         winnerMessage.style.color = "white"
         clickedBox.removeEventListener('click', handleBoxClick)
         console.log(filledBoxesCount);
-        checkScore();
     } else {
         const imageElement = document.createElement('img');
         imageElement.src = "./images/O.png";
@@ -68,6 +70,7 @@ function handleBoxClick(event) {
         console.log(filledBoxesCount);
     }
     checkScore();
+    return;
 };
 
 
@@ -79,8 +82,8 @@ restart.addEventListener('click', () => {
     img.forEach(img => img.remove());
 
     winnerMessage.innerText = "First player will be X"
-    winnerMessage.style.color = "rgb(231 203 203)"
-    filledBoxesCount = 0;
+    winnerMessage.style.color = "rgb(231 203 203)";
+    winnerMessage.style.backgroundColor = ""
     Xturn = true;
 
     addEvent();
@@ -110,14 +113,26 @@ function checkScore() {
         [2, 4, 6]
     ];
 
+
     winCombination.forEach(array => {
         const oWins = array.every(cell =>
             allBoxes[cell].firstChild?.classList.contains('circle'));
 
         if (oWins) {
             winnerMessage.innerHTML = "O Wins!!!";
+            winnerMessage.style.backgroundColor = "#3b9b3bba";
+            winnerMessage.style.borderRadius = "8px";
+
             winFound = true; // Set the flag to true
+
             allBoxes.forEach(box => box.replaceWith(box.cloneNode(true)));
+
+
+            const scorePlayerO = document.getElementById('score-O');
+            let currentScore = parseInt(scorePlayerO.innerText)
+            currentScore++;
+            scorePlayerO.innerText = currentScore;
+
             return;
         }
     });
@@ -129,8 +144,18 @@ function checkScore() {
 
             if (xWins) {
                 winnerMessage.innerHTML = "X Wins!!!";
+                winnerMessage.style.backgroundColor = "#3b9b3bba";
+                winnerMessage.style.borderRadius = "8px";
+
+
                 winFound = true; // Set the flag to true
+
                 allBoxes.forEach(box => box.replaceWith(box.cloneNode(true)));
+                const scorePlayerX = document.getElementById('score-X');
+                let currentScore = parseInt(scorePlayerX.innerText)
+                currentScore++;
+                scorePlayerX.innerText = currentScore;
+                updateXscore()
                 return;
             }
         });
@@ -138,5 +163,9 @@ function checkScore() {
 
     if (!winFound && filledBoxesCount === 9) {
         winnerMessage.innerHTML = "Tie!";
+        winnerMessage.style.backgroundColor = '#808080bf';
+        winnerMessage.style.fontFamily = 'auto';
+        winnerMessage.style.borderRadius = "8px";
     }
 }
+
