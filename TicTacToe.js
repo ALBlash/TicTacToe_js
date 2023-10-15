@@ -24,7 +24,6 @@ function createCellsLoop() {
         cellElement.classList.add('box');
         cellElement.setAttribute('id', index); // Adding an ID from 1 to 9
         gameBord.append(cellElement);
-        // console.log(cellElement)
     });
 }
 
@@ -39,13 +38,12 @@ function addEvent() {
     });
 
 }
-
-
 addEvent()
+
+// switch between "x" & "o"
 function handleBoxClick(event) {
     const clickedBox = event.target;
-    // const clickedBoxId = clicke dBox.id; // use it for the winning combination
-    // console.log(clickedBox)
+
     if (Xturn) {
         const imageElement = document.createElement('img');
         imageElement.src = "./images/X.png";
@@ -56,7 +54,7 @@ function handleBoxClick(event) {
         winnerMessage.innerText = "It's now O's Turn"
         winnerMessage.style.color = "white"
         clickedBox.removeEventListener('click', handleBoxClick)
-        console.log(filledBoxesCount);
+        console.log(`full boxes ${filledBoxesCount}`);
     } else {
         const imageElement = document.createElement('img');
         imageElement.src = "./images/O.png";
@@ -67,11 +65,12 @@ function handleBoxClick(event) {
         winnerMessage.innerText = "It's now X's Turn"
         winnerMessage.style.color = "rgb(231 203 203)"
         clickedBox.removeEventListener('click', handleBoxClick)
-        console.log(filledBoxesCount);
+        console.log(`full boxes ${filledBoxesCount}`);
     }
     checkScore();
     return;
 };
+
 
 
 // working
@@ -85,7 +84,7 @@ restart.addEventListener('click', () => {
     winnerMessage.style.backgroundColor = ""
     Xturn = true;
     filledBoxesCount = 0;
-    console.clear();
+    console.clear()
 
     addEvent();
 });
@@ -96,7 +95,7 @@ restart.addEventListener('click', () => {
 
 function checkScore() {
     const allBoxes = document.querySelectorAll(".box");
-    let winFound = false; // Flag to track if a win condition is found
+    let winFound = false; //track if a win condition is found
 
     const winCombination = [
         /*rows*/
@@ -115,6 +114,9 @@ function checkScore() {
     ];
 
 
+    // on each array we run the "every" function 
+    // and we check if the first child of each cell containes class
+    //circle
     winCombination.forEach(array => {
         const oWins = array.every(cell =>
             allBoxes[cell].firstChild?.classList.contains('circle'));
@@ -126,6 +128,9 @@ function checkScore() {
 
             winFound = true; // Set the flag to true
 
+
+            //replacing each cell with a fresh clone of itself
+            //effectively resetting the game board for a new round without reloading the entire page.
             allBoxes.forEach(box => box.replaceWith(box.cloneNode(true)));
 
 
